@@ -1,0 +1,8 @@
+application:
+  neo4j:
+    username: neo4j
+    password: password
+micronaut:
+  server:
+    port: ${random.port}
+

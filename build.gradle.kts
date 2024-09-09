@@ -1,30 +1,66 @@
 plugins {
-    kotlin("jvm") version "2.0.20"
+  java
+  `maven-publish`
+//  id("dev.nk7.demon-gradle-plugin")
+  `java-library`
+  id("dev.nk7.demon-gradle-plugin") version "1.0.0-SNAPSHOT"
+}
+demon {
+  backendBaseUrl.set(uri("http://localhost:8080"))
 }
 
-group = "dev.nk7"
-version = "1.0.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
+allprojects {
+  group = "dev.nk7"
+  version = "1.0.0-SNAPSHOT"
 }
+subprojects {
+  group = project.group
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
+  apply {
+    plugin("java-library")
+    plugin("java")
+    plugin(MavenPublishPlugin::class.java)
+  }
 
-val javaVersion = 21
-
-kotlin {
-    jvmToolchain(javaVersion)
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+  tasks {
+    val javaVersion = 11
+    compileJava {
+      options.compilerArgs.add("-parameters")
     }
-}
-tasks.test {
-    useJUnitPlatform()
+    java {
+      toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+      }
+    }
+    test {
+      useJUnitPlatform()
+    }
+  }
+  publishing {
+    repositories {
+      maven {
+        url = uri(
+          if (version.toString().endsWith("SNAPSHOT")) {
+            project.properties["repo.snapshots.url"].toString()
+          } else {
+            project.properties["repo.releases.url"].toString()
+          }
+        )
+        credentials {
+          username = project.properties["repo.username"].toString()
+          password = project.properties["repo.password"].toString()
+        }
+      }
+    }
+    publications {
+      create<MavenPublication>("artifact") {
+        groupId = project.group.toString()
+        artifactId = project.name
+        version = project.version.toString()
+        from(components["java"])
+      }
+    }
+  }
+
 }
 

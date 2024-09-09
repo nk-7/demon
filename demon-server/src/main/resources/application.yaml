@@ -1,0 +1,13 @@
+micronaut:
+  server:
+    port: 8080
+  application:
+    name: demon-server
+
+
+application:
+  neo4j:
+    uri: "bolt://localhost:7687"
+    username: neo4j
+    password: neo4j_custom_password
+

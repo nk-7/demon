@@ -1,22 +1,51 @@
 rootProject.name = "demon"
-dependencyResolutionManagement {
-    repositories {
-        maven {
-            url = uri(extra.properties["repo.snapshots.url"].toString())
-            credentials.username = extra.properties["repo.username"].toString()
-            credentials.password = extra.properties["repo.password"].toString()
-        }
-        maven {
-            url = uri(extra.properties["repo.releases.url"].toString())
-            credentials.username = extra.properties["repo.username"].toString()
-            credentials.password = extra.properties["repo.password"].toString()
-        }
+pluginManagement {
+  resolutionStrategy {
+    eachPlugin {
+      if (requested.id.namespace == "dev.nk7") {
+        useModule("dev.nk7:demon-gradle-plugin:1.0.0-SNAPSHOT")
+      }
     }
-    versionCatalogs {
-        create("libs") {
-            from("dev.nk7.core:nk7-versions-catalog:1.0.1-SNAPSHOT")
-        }
+  }
+  repositories {
+    maven {
+      url = uri(extra.properties["repo.snapshots.url"].toString())
+      credentials.username = extra.properties["repo.username"].toString()
+      credentials.password = extra.properties["repo.password"].toString()
     }
+    maven {
+      url = uri(extra.properties["repo.releases.url"].toString())
+      credentials.username = extra.properties["repo.username"].toString()
+      credentials.password = extra.properties["repo.password"].toString()
+    }
+    gradlePluginPortal()
+  }
 }
 
+plugins {
+  id("io.micronaut.platform.catalog") version "4.4.3"
+}
+dependencyResolutionManagement {
+  repositories {
+    maven {
+      url = uri(extra.properties["repo.snapshots.url"].toString())
+      credentials.username = extra.properties["repo.username"].toString()
+      credentials.password = extra.properties["repo.password"].toString()
+    }
+    maven {
+      url = uri(extra.properties["repo.releases.url"].toString())
+      credentials.username = extra.properties["repo.username"].toString()
+      credentials.password = extra.properties["repo.password"].toString()
+    }
+  }
+  versionCatalogs {
+    create("libs") {
+      from("dev.nk7.core:nk7-versions-catalog:1.0.1-SNAPSHOT")
+    }
+  }
+}
 
+include("demon-api")
+include("demon-api-rest")
+include("demon-server")
+include("demon-gradle-plugin")

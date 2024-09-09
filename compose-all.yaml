@@ -1,0 +1,17 @@
+services:
+  neo4j:
+    image: neo4j:community-ubi9
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      NEO4J_AUTH: neo4j/neo4j_custom_password
+    volumes:
+      - $HOME/neo4j/data:/data
+      - $HOME/neo4j/logs:/logs
+  demon-server:
+    image: registry.nk7.dev/demon-server:latest
+    ports:
+      - 8080:8080
+    environment:
+      application_neo4j_uri: "bolt://neo4j:7687"
