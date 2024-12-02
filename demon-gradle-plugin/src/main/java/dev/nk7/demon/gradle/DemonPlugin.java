@@ -16,9 +16,7 @@ public class DemonPlugin implements Plugin<Project> {
       project.getTasks().register(
         "demon-report",
         DemonReportTask.class,
-        t -> {
-          t.setGroup("demon");
-        }
+        t -> t.setGroup("demon")
       );
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);

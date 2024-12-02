@@ -10,7 +10,7 @@ public abstract class DemonPluginConfiguration {
    * Base HTTP URI to send dependencies report.
    * Default value  is "http://localhost:8080".
    *
-   * @return
+   * @return Backend base url.
    */
   abstract public Property<URI> getBackendBaseUrl();
 

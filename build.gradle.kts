@@ -1,7 +1,6 @@
 plugins {
   java
   `maven-publish`
-//  id("dev.nk7.demon-gradle-plugin")
   `java-library`
   id("dev.nk7.demon-gradle-plugin") version "1.0.0-SNAPSHOT"
 }
