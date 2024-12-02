@@ -28,7 +28,7 @@ open class ComponentTest : TestPropertyProvider {
   class TestContext {
     @Singleton
     fun demonClient(@Property(name = "micronaut.server.port") serverPort: Int): DemonApi {
-      return HttpDemonClient.fromApiUrl("http://localhost:$serverPort")
+      return HttpDemonClient.fromApiUri("http://localhost:$serverPort")
     }
   }
 

@@ -46,7 +46,7 @@ public abstract class DemonReportTask extends DefaultTask {
       moduleDependencies.getExternalDependencies().get("compileClasspath"),
       modules
     );
-    final DemonApi api = HttpDemonClient.fromApiUrl(backendBaseUrl);
+    final DemonApi api = HttpDemonClient.fromApiUri(backendBaseUrl);
     try {
       api.sendBuildReport(reportDto);
     } catch (Exception e) {

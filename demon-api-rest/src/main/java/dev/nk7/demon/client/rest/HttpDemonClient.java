@@ -5,54 +5,50 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.nk7.demon.api.v1.DemonApi;
 import dev.nk7.demon.api.v1.dto.ProjectReportDto;
-import okhttp3.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Objects;
 
 public class HttpDemonClient implements DemonApi {
-
-  private static final Logger log = LoggerFactory.getLogger(HttpDemonClient.class);
-  private final OkHttpClient client;
+  private final HttpClient httpClient = HttpClient.newHttpClient();
   private final ObjectMapper mapper;
-  private final String apiUrl;
+  private final DemonApiUris demonApiUris;
 
-  private HttpDemonClient(OkHttpClient client, ObjectMapper mapper, String apiUrl) {
-    this.client = Objects.requireNonNull(client);
+  private HttpDemonClient(ObjectMapper mapper, DemonApiUris demonApiUris) {
     this.mapper = Objects.requireNonNull(mapper);
-    this.apiUrl = Objects.requireNonNull(apiUrl);
+    this.demonApiUris = Objects.requireNonNull(demonApiUris);
   }
 
-  public static HttpDemonClient fromApiUrl(final String apiUrl) {
+  public static HttpDemonClient fromApiUri(final String baseUri) {
     final ObjectMapper mapper = new ObjectMapper()
       .registerModule(new JavaTimeModule());
-    final OkHttpClient client = new OkHttpClient();
-    return new HttpDemonClient(client, mapper, apiUrl);
+    final DemonApiUris demonApiUris = new DemonApiUris(baseUri);
+    return new HttpDemonClient(mapper, demonApiUris);
   }
 
   @Override
   public void sendBuildReport(ProjectReportDto report) {
-    final String body = marshall(report);
-    final Request request = new Request.Builder()
-      .url(apiUrl + "/build")
-      .post(RequestBody.create(body, MediaType.parse("application/json")))
+    final byte[] body = marshall(report);
+    final HttpRequest request = HttpRequest.newBuilder(demonApiUris.buildUri)
+      .POST(HttpRequest.BodyPublishers.ofByteArray(body))
+      .header("Content-Type", "application/json")
       .build();
 
-    try (Response response = client.newCall(request).execute()) {
-      if (!response.isSuccessful()) {
-        throw new BadResponseCodeException(response);
-      }
-    } catch (IOException exception) {
-      throw new ClientException("Cannot send report", exception);
+    try {
+      httpClient.send(request, HttpResponse.BodyHandlers.discarding());
+    } catch (IOException e) {
+      throw new ClientException("Cannot send report", e);
+    } catch (InterruptedException e) {
+      throw new ClientException("Sending build report was interrupted", e);
     }
   }
 
-  private String marshall(ProjectReportDto report) {
+  private byte[] marshall(ProjectReportDto report) {
     try {
-      return mapper.writeValueAsString(report);
+      return mapper.writeValueAsBytes(report);
     } catch (JsonProcessingException e) {
       throw new ClientException("Error when marshall report to JSON.", e);
     }
