@@ -2,10 +2,6 @@ plugins {
   java
   `maven-publish`
   `java-library`
-  id("dev.nk7.demon-gradle-plugin") version "1.0.0-SNAPSHOT"
-}
-demon {
-  backendBaseUrl.set(uri("http://localhost:8080"))
 }
 
 allprojects {

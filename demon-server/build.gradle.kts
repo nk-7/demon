@@ -23,7 +23,7 @@ dependencies {
   implementation(mn.jackson.module.kotlin)
   implementation(mn.jackson.module.parameterNames)
   implementation(mn.slf4j.api)
-  implementation(libs.bundles.neo4j.ogm)
+  implementation("org.neo4j:neo4j-ogm-core:4.0.11")
 
   runtimeOnly(mn.micronaut.http.server.netty)
   runtimeOnly(mn.logback.classic)

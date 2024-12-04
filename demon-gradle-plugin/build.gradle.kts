@@ -15,14 +15,16 @@ tasks.named("shadowJar", ShadowJar::class) {
 }
 
 dependencies {
-  api(platform(libs.bom.junit))
+  api(platform("org.junit:junit-bom:5.11.0"))
   shadow(gradleApi())
   implementation(project(":demon-api"))
   implementation(project(":demon-api-rest"))
-  compileOnly(libs.slf4j)
+  compileOnly("org.slf4j:slf4j-api:2.0.16")
   implementation("org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r")
-  testImplementation(libs.bundles.test)
-  testImplementation(libs.wiremock)
+  testImplementation("org.assertj:assertj-core:3.26.3")
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testImplementation("org.junit.jupiter:junit-jupiter-engine")
+  testImplementation("org.wiremock:wiremock:3.9.2")
 }
 
 gradlePlugin {

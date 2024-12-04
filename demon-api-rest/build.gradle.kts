@@ -2,10 +2,10 @@ plugins {
   `maven-publish`
 }
 dependencies {
-  api(platform(libs.bom.jackson))
+  api(platform("com.fasterxml.jackson:jackson-bom:2.17.2"))
   implementation(project(":demon-api"))
-  implementation(libs.jackson.databind)
-  implementation(libs.jackson.module.jsr310)
-  implementation(libs.slf4j)
-  compileOnly(libs.logback.classic)
+  implementation("com.fasterxml.jackson.core:jackson-databind")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+  compileOnly("org.slf4j:slf4j-api:2.0.16")
+  compileOnly("ch.qos.logback:logback-classic:1.5.8")
 }
