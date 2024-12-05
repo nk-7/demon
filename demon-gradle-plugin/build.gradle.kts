@@ -4,15 +4,10 @@ plugins {
   id("com.gradleup.shadow") version "9.0.0-beta2"
   `java-gradle-plugin`
   id("com.gradle.plugin-publish") version "1.2.1"
+  id("org.jreleaser") version "1.15.0"
 }
-apply(plugin = "com.gradle.plugin-publish")
 
 
-tasks.named("shadowJar", ShadowJar::class) {
-  enableRelocation = true
-  relocationPrefix = "libs"
-  archiveClassifier.set("")
-}
 
 dependencies {
   api(platform("org.junit:junit-bom:5.11.0"))
@@ -37,6 +32,11 @@ gradlePlugin {
       version = project.version.toString()
     }
   }
+}
+tasks.named("shadowJar", ShadowJar::class) {
+  enableRelocation = true
+  relocationPrefix = "libs"
+  archiveClassifier.set("")
 }
 
 
