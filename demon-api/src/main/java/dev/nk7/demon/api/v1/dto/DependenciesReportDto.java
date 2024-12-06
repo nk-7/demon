@@ -4,30 +4,32 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
-public class ProjectReportDto {
+/**
+ * Report about project dependencies.
+ */
+public class DependenciesReportDto {
   /**
-   * Время создания этого отчета.
+   * Report creation timestamp.
    */
   private final Instant timestamp;
   /**
-   * Имя проекта.
+   * Project name.
    */
   private final String name;
   /**
-   * Имя ветки.
+   * Git branch name.
    */
   private final String branch;
   /**
-   * Прямые зависимости проекта.
-   * Родительский проект может сам содержать зависимости, не только модули.
+   * Direct project dependencies.
    */
   private final Set<DependencyDto> dependencies;
   /**
-   * Модули, из которых состоит проект.
+   * Set of project modules.
    */
   private final Set<ModuleDto> modules;
 
-  public ProjectReportDto(Instant timestamp, String name, String branch, Set<DependencyDto> dependencies, Set<ModuleDto> modules) {
+  public DependenciesReportDto(Instant timestamp, String name, String branch, Set<DependencyDto> dependencies, Set<ModuleDto> modules) {
     this.timestamp = Objects.requireNonNull(timestamp);
     this.name = Objects.requireNonNull(name);
     this.branch = branch;

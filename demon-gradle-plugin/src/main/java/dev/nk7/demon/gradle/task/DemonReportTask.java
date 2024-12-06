@@ -2,7 +2,7 @@ package dev.nk7.demon.gradle.task;
 
 import dev.nk7.demon.api.v1.DemonApi;
 import dev.nk7.demon.api.v1.dto.ModuleDto;
-import dev.nk7.demon.api.v1.dto.ProjectReportDto;
+import dev.nk7.demon.api.v1.dto.DependenciesReportDto;
 import dev.nk7.demon.client.rest.HttpDemonClient;
 import dev.nk7.demon.gradle.DemonPluginConfiguration;
 import dev.nk7.demon.gradle.visitor.dependencies.ModuleDependencies;
@@ -39,7 +39,7 @@ public abstract class DemonReportTask extends DefaultTask {
     final GitInfo gitInfo = gitInfoVisitor.visit(getProject());
     final Set<ModuleDto> modules = modules();
 
-    final ProjectReportDto reportDto = new ProjectReportDto(
+    final DependenciesReportDto reportDto = new DependenciesReportDto(
       Instant.now(),
       getProject().getName(),
       gitInfo.getBranch() == null ? "NO_VCS" : gitInfo.getBranch(),
@@ -48,7 +48,7 @@ public abstract class DemonReportTask extends DefaultTask {
     );
     final DemonApi api = HttpDemonClient.fromApiUri(backendBaseUrl);
     try {
-      api.sendBuildReport(reportDto);
+      api.sendDependenciesReport(reportDto);
     } catch (Exception e) {
       getProject().getLogger().warn("Cannot send demon dependencies report.", e);
     }

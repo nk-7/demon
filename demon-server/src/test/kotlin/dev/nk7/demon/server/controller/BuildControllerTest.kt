@@ -1,7 +1,7 @@
 package dev.nk7.demon.server.controller
 
 import dev.nk7.demon.api.v1.dto.DependencyDto
-import dev.nk7.demon.api.v1.dto.ProjectReportDto
+import dev.nk7.demon.api.v1.dto.DependenciesReportDto
 import dev.nk7.demon.server.ComponentTest
 import org.junit.jupiter.api.Test
 import java.time.Instant
@@ -9,8 +9,8 @@ import java.time.Instant
 class BuildControllerTest : ComponentTest() {
   @Test
   fun postBuildReport() {
-    demonClient.sendBuildReport(
-      ProjectReportDto(
+    demonClient.sendDependenciesReport(
+      DependenciesReportDto(
         Instant.now(),
         "test",
         "test",
