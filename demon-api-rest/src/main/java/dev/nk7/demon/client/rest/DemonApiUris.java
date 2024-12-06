@@ -3,7 +3,11 @@ package dev.nk7.demon.client.rest;
 import java.net.URI;
 import java.util.Objects;
 
+/**
+ * Demon backend API URI provider.
+ */
 class DemonApiUris {
+
 
   final URI buildUri;
 

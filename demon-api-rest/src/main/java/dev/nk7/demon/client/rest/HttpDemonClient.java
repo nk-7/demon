@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.nk7.demon.api.v1.DemonApi;
-import dev.nk7.demon.api.v1.dto.ProjectReportDto;
+import dev.nk7.demon.api.v1.dto.DependenciesReportDto;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
@@ -30,7 +30,7 @@ public class HttpDemonClient implements DemonApi {
   }
 
   @Override
-  public void sendBuildReport(ProjectReportDto report) {
+  public void sendDependenciesReport(DependenciesReportDto report) {
     final byte[] body = marshall(report);
     final HttpRequest request = HttpRequest.newBuilder(demonApiUris.buildUri)
       .POST(HttpRequest.BodyPublishers.ofByteArray(body))
@@ -46,7 +46,7 @@ public class HttpDemonClient implements DemonApi {
     }
   }
 
-  private byte[] marshall(ProjectReportDto report) {
+  private byte[] marshall(DependenciesReportDto report) {
     try {
       return mapper.writeValueAsBytes(report);
     } catch (JsonProcessingException e) {

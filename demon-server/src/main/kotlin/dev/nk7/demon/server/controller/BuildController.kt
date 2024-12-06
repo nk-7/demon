@@ -1,6 +1,6 @@
 package dev.nk7.demon.server.controller
 
-import dev.nk7.demon.api.v1.dto.ProjectReportDto
+import dev.nk7.demon.api.v1.dto.DependenciesReportDto
 import dev.nk7.demon.server.command.SaveProjectReportOperation
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
@@ -15,7 +15,7 @@ open class BuildController(private val saveProjectReportOperation: SaveProjectRe
   private val log = LoggerFactory.getLogger(BuildController::class.java)
 
   @Post
-  suspend fun post(@Body projectDto: ProjectReportDto): HttpResponse<Unit> {
+  suspend fun post(@Body projectDto: DependenciesReportDto): HttpResponse<Unit> {
     log.info("Получен отчет о сборке: '{}.'", projectDto)
     saveProjectReportOperation.execute(projectDto)
     return HttpResponse.ok()

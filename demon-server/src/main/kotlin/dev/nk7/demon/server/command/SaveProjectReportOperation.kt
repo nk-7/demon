@@ -1,15 +1,15 @@
 package dev.nk7.demon.server.command
 
 import dev.nk7.demon.api.v1.dto.DependencyDto
-import dev.nk7.demon.api.v1.dto.ProjectReportDto
+import dev.nk7.demon.api.v1.dto.DependenciesReportDto
 import dev.nk7.demon.server.domain.Dependency
 import dev.nk7.demon.server.domain.Project
 import dev.nk7.demon.server.service.ProjectService
 import jakarta.inject.Singleton
 
 @Singleton
-class SaveProjectReportOperation(private val projectService: ProjectService) : UnitOperation<ProjectReportDto> {
-  override suspend fun execute(params: ProjectReportDto) {
+class SaveProjectReportOperation(private val projectService: ProjectService) : UnitOperation<DependenciesReportDto> {
+  override suspend fun execute(params: DependenciesReportDto) {
     val dependencies = params.dependencies?.map { toDependencyEntity(it) }?.toSet() ?: emptySet()
 
     val modules = params.modules.map {
