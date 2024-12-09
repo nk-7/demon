@@ -4,7 +4,6 @@ plugins {
   id("com.gradleup.shadow") version "9.0.0-beta2"
   `java-gradle-plugin`
   id("com.gradle.plugin-publish") version "1.2.1"
-  id("org.jreleaser") version "1.15.0"
 }
 
 
@@ -23,13 +22,17 @@ dependencies {
 }
 
 gradlePlugin {
+  website = "https://github.com/nk-7/demon"
+  vcsUrl = "https://github.com/nk-7/demon.git"
+  version = project.version
   plugins {
     create("demon-plugin") {
-      id = "dev.nk7.demon-gradle-plugin"
+      id = "dev.nk7.demon.demon-gradle-plugin"
       implementationClass = "dev.nk7.demon.gradle.DemonPlugin"
       displayName = "Demon Gradle plugin."
       description = "Plugin that help to collect and analyze dependencies across multiple projects."
       version = project.version.toString()
+      tags = listOf("tools", "dependencies", "analyzer", "dependency-graph")
     }
   }
 }

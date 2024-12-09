@@ -8,10 +8,6 @@ plugins {
   id("io.micronaut.aot") version "4.4.3"
 }
 
-group = "dev.nk7"
-version = "1.0.0-SNAPSHOT"
-
-
 dependencies {
   annotationProcessor(mn.micronaut.http.validation)
 
