@@ -1,16 +1,21 @@
+import org.jreleaser.model.Active
+import org.jreleaser.model.Distribution
+import org.jreleaser.model.Stereotype
+import kotlin.io.path.Path
+
 plugins {
   java
   `maven-publish`
   `java-library`
+  id("org.jreleaser") version "1.15.0"
 }
 
 allprojects {
-  group = "dev.nk7"
+  group = "dev.nk7.demon"
   version = "1.0.0-SNAPSHOT"
 }
 subprojects {
   group = project.group
-
   apply {
     plugin("java-library")
     plugin("java")
