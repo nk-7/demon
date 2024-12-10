@@ -15,4 +15,20 @@ data class Module(
   val dependencies: Set<Dependency>,
   @Relationship(type = "DEPENDS_ON", direction = Relationship.Direction.OUTGOING)
   val moduleDependencies: Set<Module>
-)
+) {
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as Module
+
+    if (id != other.id) return false
+    return name == other.name
+  }
+
+  override fun hashCode(): Int {
+    var result = id?.hashCode() ?: 0
+    result = 31 * result + name.hashCode()
+    return result
+  }
+}

@@ -9,6 +9,7 @@ import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.junit.jupiter.api.TestInstance
+import org.neo4j.ogm.session.SessionFactory
 import org.testcontainers.containers.Neo4jContainer
 import org.testcontainers.utility.DockerImageName
 
@@ -17,6 +18,9 @@ import org.testcontainers.utility.DockerImageName
 open class ComponentTest : TestPropertyProvider {
   @Inject
   protected lateinit var demonClient: DemonApi
+
+  @Inject
+  protected lateinit var sessionFactory: SessionFactory
 
   companion object {
     val neo4j = Neo4jContainer(DockerImageName.parse("neo4j:community-ubi9"))
