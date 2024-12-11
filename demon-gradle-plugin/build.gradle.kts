@@ -4,7 +4,7 @@ plugins {
   id("com.gradleup.shadow") version "9.0.0-beta2"
   `java-gradle-plugin`
   id("com.gradle.plugin-publish") version "1.2.1"
-  id("org.jreleaser") version "1.15.0"
+  signing
 }
 
 
