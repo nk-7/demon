@@ -2,8 +2,10 @@ import io.micronaut.gradle.docker.MicronautDockerfile
 
 plugins {
   alias(mn.plugins.kotlin.jvm)
+  alias(mn.plugins.kotlin.noarg)
   alias(mn.plugins.ksp)
   alias(mn.plugins.kotlin.allopen)
+  `java-test-fixtures`
   id("io.micronaut.application") version "4.4.3"
   id("io.micronaut.aot") version "4.4.3"
 }
@@ -23,7 +25,8 @@ dependencies {
   implementation(mn.jackson.module.kotlin)
   implementation(mn.jackson.module.parameterNames)
   implementation(mn.slf4j.api)
-  implementation("org.neo4j:neo4j-ogm-core:4.0.11")
+  implementation("org.neo4j:neo4j-ogm-core:4.0.12")
+  implementation("org.neo4j:neo4j-ogm-bolt-driver:4.0.12")
 
   runtimeOnly(mn.micronaut.http.server.netty)
   runtimeOnly(mn.logback.classic)
@@ -32,6 +35,7 @@ dependencies {
 
   testImplementation(project(":demon-api-rest"))
   testImplementation(mn.testcontainers.neo4j)
+  testImplementation(mn.assertj.core)
   testAnnotationProcessor(mn.micronaut.inject.java)
 
 
@@ -57,6 +61,9 @@ tasks.compileJava {
 
 kotlin {
   jvmToolchain(javaVersion)
+}
+noArg {
+  annotations(listOf("org.neo4j.ogm.annotation.NodeEntity", "org.neo4j.ogm.annotation.RelationshipEntity"))
 }
 
 java {

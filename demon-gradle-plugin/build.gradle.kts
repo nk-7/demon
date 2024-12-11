@@ -23,6 +23,9 @@ dependencies {
 }
 
 gradlePlugin {
+  website = "https://github.com/nk-7/demon"
+  vcsUrl = "https://github.com/nk-7/demon"
+  version = project.version
   plugins {
     create("demon-plugin") {
       id = "dev.nk7.demon-gradle-plugin"
@@ -30,6 +33,7 @@ gradlePlugin {
       displayName = "Demon Gradle plugin."
       description = "Plugin that help to collect and analyze dependencies across multiple projects."
       version = project.version.toString()
+      tags = listOf("tools", "dependencies", "analyzer", "dependency-graph")
     }
   }
 }
