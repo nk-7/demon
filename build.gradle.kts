@@ -6,7 +6,7 @@ plugins {
 
 allprojects {
   group = "dev.nk7"
-  version = "1.0.0-SNAPSHOT"
+  version = "1.0.0"
 }
 subprojects {
   group = project.group
