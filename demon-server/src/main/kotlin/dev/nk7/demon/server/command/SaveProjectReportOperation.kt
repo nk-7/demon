@@ -1,7 +1,7 @@
 package dev.nk7.demon.server.command
 
-import dev.nk7.demon.api.v1.dto.DependencyDto
 import dev.nk7.demon.api.v1.dto.DependenciesReportDto
+import dev.nk7.demon.api.v1.dto.DependencyDto
 import dev.nk7.demon.server.domain.Dependency
 import dev.nk7.demon.server.domain.Project
 import dev.nk7.demon.server.service.ProjectService
@@ -19,11 +19,26 @@ class SaveProjectReportOperation(private val projectService: ProjectService) : U
         it.dependencies?.map { d -> toDependencyEntity(d) }?.toSet() ?: emptySet(),
         emptySet()
       )
-    }.toSet()
-    val project =
-      Project("${params.name}:${params.branch}", params.name, params.timestamp, params.branch, dependencies, modules)
-    projectService.save(project)
+    }.associateBy { it.name }.toMutableMap()
 
+    // TODO: Make it more readable.
+    params.modules.stream()
+      .filter { dto -> dto.moduleDependencies.isNotEmpty() }
+      .forEach { dto ->
+        modules[dto.name] =
+          modules[dto.name]!!.copy(moduleDependencies = dto.moduleDependencies.map { md -> modules[md]!! }.toSet())
+      }
+
+    val project = Project(
+      "${params.name}:${params.branch}",
+      params.name,
+      params.timestamp,
+      params.branch,
+      dependencies,
+      modules.values.toSet()
+    )
+
+    projectService.save(project)
   }
 
   private fun toDependencyEntity(dto: DependencyDto): Dependency {
