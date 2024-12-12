@@ -1,3 +1,4 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import io.micronaut.gradle.docker.MicronautDockerfile
 
 plugins {
@@ -9,10 +10,6 @@ plugins {
   id("io.micronaut.application") version "4.4.3"
   id("io.micronaut.aot") version "4.4.3"
 }
-
-group = "dev.nk7"
-version = "1.0.0-SNAPSHOT"
-
 
 dependencies {
   annotationProcessor(mn.micronaut.http.validation)
@@ -46,6 +43,9 @@ application {
 
 tasks.named<MicronautDockerfile>("dockerfile") {
   baseImage.set("bellsoft/liberica-openjdk-debian:21.0.5-x86_64")
+}
+tasks.named<DockerBuildImage>("dockerBuild") {
+  images.add("nk7dev/demon-server:${project.version}")
 }
 
 micronaut {
