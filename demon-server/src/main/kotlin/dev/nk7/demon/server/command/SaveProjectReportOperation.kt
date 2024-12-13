@@ -23,6 +23,7 @@ class SaveProjectReportOperation(private val projectService: ProjectService) : U
 
     // TODO: Make it more readable.
     params.modules.stream()
+      .filter { dto -> dto.moduleDependencies != null }
       .filter { dto -> dto.moduleDependencies.isNotEmpty() }
       .forEach { dto ->
         modules[dto.name] =
