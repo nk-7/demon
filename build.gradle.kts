@@ -18,13 +18,14 @@ subprojects {
   }
 
   tasks {
-    val javaVersion = 11
     compileJava {
       options.compilerArgs.add("-parameters")
+//      sourceCompatibility = "1.8"
+//      targetCompatibility = "1.8"
     }
     java {
       toolchain {
-        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+        languageVersion.set(JavaLanguageVersion.of("8"))
       }
     }
     test {

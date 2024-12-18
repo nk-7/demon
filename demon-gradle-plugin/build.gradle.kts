@@ -15,11 +15,11 @@ dependencies {
   implementation(project(":demon-api"))
   implementation(project(":demon-api-rest"))
   compileOnly("org.slf4j:slf4j-api:2.0.16")
-  implementation("org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r")
+  implementation("org.eclipse.jgit:org.eclipse.jgit:5.13.3.202401111512-r")
   testImplementation("org.assertj:assertj-core:3.26.3")
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("org.junit.jupiter:junit-jupiter-engine")
-  testImplementation("org.wiremock:wiremock:3.9.2")
+  testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.1")
 }
 
 gradlePlugin {
