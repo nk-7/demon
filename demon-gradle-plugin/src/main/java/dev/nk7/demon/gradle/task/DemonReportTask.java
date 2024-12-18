@@ -1,8 +1,8 @@
 package dev.nk7.demon.gradle.task;
 
 import dev.nk7.demon.api.v1.DemonApi;
-import dev.nk7.demon.api.v1.dto.ModuleDto;
 import dev.nk7.demon.api.v1.dto.DependenciesReportDto;
+import dev.nk7.demon.api.v1.dto.ModuleDto;
 import dev.nk7.demon.client.rest.HttpDemonClient;
 import dev.nk7.demon.gradle.DemonPluginConfiguration;
 import dev.nk7.demon.gradle.visitor.dependencies.ModuleDependencies;
@@ -15,6 +15,7 @@ import org.gradle.api.tasks.TaskAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Set;
@@ -33,7 +34,7 @@ public abstract class DemonReportTask extends DefaultTask {
 //  }
 
   @TaskAction
-  void sendReport() {
+  void sendReport() throws MalformedURLException {
     final String backendBaseUrl = getProject().getExtensions().getByType(DemonPluginConfiguration.class).getBackendBaseUrl().get().toString();
     final ModuleDependencies moduleDependencies = projectDependenciesVisitor.visit(getProject());
     final GitInfo gitInfo = gitInfoVisitor.visit(getProject());
