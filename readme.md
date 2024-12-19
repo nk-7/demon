@@ -24,7 +24,7 @@ In the `build.gradle` file, you need to add the following lines:
 
 ```kotlin
 plugins {
-  id("dev.nk7.demon-gradle-plugin") version "1.0.1"
+  id("dev.nk7.demon-gradle-plugin") version "1.0.3"
 }
 ```
 For a multi-module project, this should be added to the build.gradle of the parent project.
