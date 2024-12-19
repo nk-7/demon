@@ -2,7 +2,6 @@ package dev.nk7.demon.gradle.visitor.dependencies;
 
 import dev.nk7.demon.gradle.visitor.Visitor;
 import org.gradle.api.Project;
-import org.gradle.api.artifacts.component.ComponentIdentifier;
 import org.gradle.api.artifacts.result.DependencyResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.artifacts.result.ResolvedDependencyResult;
@@ -47,21 +46,17 @@ public class ProjectDependenciesVisitor implements Visitor<Project, ModuleDepend
     final ResolvedComponentResult root = rootProvider.get();
 
     final Set<AbstractDependency> dependencies = new HashSet<>();
-    final Set<ComponentIdentifier> visited = new HashSet<>();
     for (final DependencyResult dependency : root.getDependencies()) {
       if (dependency instanceof DefaultResolvedDependencyResult) {
         final DefaultResolvedDependencyResult resolvedDependency = (DefaultResolvedDependencyResult) dependency;
-        walkDependenciesTree(resolvedDependency.getSelected(), visited)
+        walkDependenciesTree(resolvedDependency.getSelected())
           .ifPresent(dependencies::add);
       }
     }
     return dependencies;
   }
 
-  private Optional<AbstractDependency> walkDependenciesTree(ResolvedComponentResult root, Set<ComponentIdentifier> visited) {
-    if (!visited.add(root.getId())) {
-      return Optional.empty();
-    }
+  private Optional<AbstractDependency> walkDependenciesTree(ResolvedComponentResult root) {
     // Цикл обхода дерева зависимостей.
     final Set<AbstractDependency> dependencies = new HashSet<>();
 
@@ -69,7 +64,7 @@ public class ProjectDependenciesVisitor implements Visitor<Project, ModuleDepend
       if (dependency instanceof ResolvedDependencyResult) {
         final ResolvedDependencyResult resolvedDependency = (ResolvedDependencyResult) dependency;
         if (!resolvedDependency.isConstraint()) {
-          walkDependenciesTree(resolvedDependency.getSelected(), visited)
+          walkDependenciesTree(resolvedDependency.getSelected())
             .ifPresent(dependencies::add);
         }
       }
