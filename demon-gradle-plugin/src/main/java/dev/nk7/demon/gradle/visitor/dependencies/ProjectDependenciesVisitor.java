@@ -47,8 +47,8 @@ public class ProjectDependenciesVisitor implements Visitor<Project, ModuleDepend
     final ResolvedComponentResult root = rootProvider.get();
 
     final Set<AbstractDependency> dependencies = new HashSet<>();
-    final Set<ComponentIdentifier> visited = new HashSet<>();
     for (final DependencyResult dependency : root.getDependencies()) {
+      final Set<ComponentIdentifier> visited = new HashSet<>();
       if (dependency instanceof DefaultResolvedDependencyResult) {
         final DefaultResolvedDependencyResult resolvedDependency = (DefaultResolvedDependencyResult) dependency;
         walkDependenciesTree(resolvedDependency.getSelected(), visited)

@@ -2,11 +2,12 @@ plugins {
   java
   `maven-publish`
   `java-library`
+  id("dev.nk7.demon-gradle-plugin") version "1.0.3"
 }
 
 allprojects {
   group = "dev.nk7"
-  version = "1.0.1"
+  version = "1.0.3"
 }
 subprojects {
   group = project.group
